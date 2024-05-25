@@ -94,45 +94,31 @@ def predict_demand():
     RateCodeID = st.selectbox("Rate Type", ['Standard rates', 'JFK trips', 'Newark trips', 'Nassau/Westchester trips', 'Negotiated fare', 'Group rides', 'unknown rate code'])
     tipamount = st.number_input("Tip Amount", 0.0)
 
-    
-        
-    # Read the CSV file containing pickup data
-    pickup_data = pd.read_csv('pickup.csv')
-    
-    # Convert month to numeric value
-    month_dict = {"January": 1, "February": 2, "March": 3, "April": 4, "May": 5, "June": 6, "July": 7, "August": 8, "September": 9, "October": 10, "November": 11, "December": 12}
-    month_numeric = month_dict[month]
-
-    # Create a DataFrame with user input
-    input_data = pd.DataFrame({
-        'date': [date],
-        'hour': [hour],
-        'location': [location],
-        'passenger_count': [passenger_count],
-        'trip_distance': [trip_distance],
-        'RateCodeID': [RateCodeID],
-        'tipamount': [tipamount],
-        'month': [month_numeric]
-    })
-    
-    # Combine user input with pickup data
-    combined_data = pd.concat([pickup_data, input_data], ignore_index=True)
-    
-    # Predict the demand using the model
-    filtered_data = pickup_data[
-        (pickup_data['pickup_day'] == date) & 
-        (pickup_data['pickup_hour'] == hour) 
-    ]
     if st.button("Predict"):
-    # Check if any rows match and return the predicted value from the specified column
+        # Convert month to numeric value
+        month_dict = {
+            "January": 1, "February": 2, "March": 3, "April": 4, "May": 5, 
+            "June": 6, "July": 7, "August": 8, "September": 9, "October": 10, 
+            "November": 11, "December": 12}
+        month_numeric = month_dict[month]
+
+        # Read the CSV file containing pickup data
+        pickup_data = pd.read_csv('pickup.csv')
+
+        # Filter the rows where the parameters match
+        filtered_data = pickup_data[
+            (pickup_data['pickup_day'] == date) & 
+            (pickup_data['pickup_hour'] == hour)    
+        ]
+
+        # Check if any rows match and return the last column's value
         if not filtered_data.empty:
-            predicted_value = filtered_data['number_of_pickups'].values[0]
-            return predicted_value
+            number_of_pickups = pickup_data.columns[-1]
+            predicted_value = filtered_data[number_of_pickups].values[0]
+            st.write(f"Predicted value from the last column ({number_of_pickups}):", predicted_value)
+        else:
+            st.write("No data found.")
     
-
-
-
-
 # Initialize session state
 if 'page' not in st.session_state:
     st.session_state.page = 'home'
