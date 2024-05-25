@@ -11,7 +11,7 @@ import pickle
 # Define unique keys for each button
 button1_key = "button1"
 button2_key = "button2"
-button3_key = "button3"
+button3 = "button3"
 
 
 def main():
@@ -61,7 +61,7 @@ def main():
     st.title("Driver Demand Prediction App")
     st.write("This application is designed to help you make predictions about the demand of drivers based on the data provided by you.Our platform offers a range of features to assist you in your analysis.")
 
-    if st.button("Go to Login",key = button3_key):
+    if st.button("Go to Login",key = button3):
         st.session_state.page = "login"
 
 # Function to display the login page
