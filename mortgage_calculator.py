@@ -9,9 +9,10 @@ import pickle
 # Function to display the homepage
 
 # Define unique keys for each button
-button1_key = "button1"
-button2_key = "button2"
-button3 = "button3"
+
+button_key_login = "button_login"
+button_key_logout = "button_logout"
+button_key_login2 = "button_login2"
 
 
 def main():
@@ -61,7 +62,7 @@ def main():
     st.title("Driver Demand Prediction App")
     st.write("This application is designed to help you make predictions about the demand of drivers based on the data provided by you.Our platform offers a range of features to assist you in your analysis.")
 
-    if st.button("Go to Login",key = button3):
+    if st.button("Go to Login",key = button_key_login):
         st.session_state.page = "login"
 
 # Function to display the login page
@@ -72,7 +73,7 @@ def show_login():
     password = st.text_input("Password", type="password")
 
     
-    if st.button("Login", key = button2_key):
+    if st.button("Login", key = button_key_login2):
         if username == "admin" and password == "password":
             st.session_state.page = "prediction"
         else:
@@ -120,7 +121,7 @@ def predict_demand():
     
     return prediction[0]
 
-if st.button("Log Out", key=button1_key):
+if st.button("Log Out", key=button_key_logout):
     # Button 1 is clicked
     st.write("Logging Out!")
     st.session_state.page = "login"
