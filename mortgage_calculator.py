@@ -11,15 +11,9 @@ import pickle
 # Define unique keys for each button
 button1_key = "button1"
 button2_key = "button2"
+button3_key = "button3"
 
-# Create buttons with unique keys
-if st.button("Button 1", key=button1_key):
-    # Button 1 is clicked
-    st.write("Logging Out!")
 
-if st.button("Button 2", key=button2_key):
-    # Button 2 is clicked
-    st.write("Logging In!")
 def main():
     st.markdown("""
         <style>
@@ -67,7 +61,7 @@ def main():
     st.title("Driver Demand Prediction App")
     st.write("This application is designed to help you make predictions about the demand of drivers based on the data provided by you.Our platform offers a range of features to assist you in your analysis.")
 
-    if st.button("Go to Login"):
+    if st.button("Go to Login",key = button3_key):
         st.session_state.page = "login"
 
 # Function to display the login page
@@ -76,6 +70,8 @@ def show_login():
     st.write("Please enter your credentials to access the prediction page.")
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
+
+    
     if st.button("Login", key = button2_key):
         if username == "admin" and password == "password":
             st.session_state.page = "prediction"
@@ -124,8 +120,9 @@ def predict_demand():
     
     return prediction[0]
 
-
-if st.button("Log out",key = button1_key):
+if st.button("Log Out", key=button1_key):
+    # Button 1 is clicked
+    st.write("Logging Out!")
     st.session_state.page = "login"
 
 
@@ -147,6 +144,5 @@ if __name__ == "__main__":
     main()
 
 
-import streamlit as st
 
 
