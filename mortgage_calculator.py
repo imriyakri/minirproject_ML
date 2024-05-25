@@ -95,7 +95,7 @@ def predict_demand():
     tipamount = st.number_input("Tip Amount", 0.0)
     
     # Read the CSV file containing pickup data
-    pickup_data = pd.read_csv('pickup.csv')
+    pickup_data = pd.read_csv('pickups_df.csv')
     
     # Convert month to numeric value
     month_dict = {"January": 1, "February": 2, "March": 3, "April": 4, "May": 5, "June": 6, "July": 7, "August": 8, "September": 9, "October": 10, "November": 11, "December": 12}
@@ -117,14 +117,18 @@ def predict_demand():
     combined_data = pd.concat([pickup_data, input_data], ignore_index=True)
     
     # Predict the demand using the model
-    prediction = predict_demand.predict(combined_data)
-    
-    return prediction[0]
+    filtered_data = pickup_data[
+        (pickup_data['pickup_day'] == date) & 
+        (pickup_data['pickup_hour'] == hour) 
+    ]
 
-if st.button("Log Out", key=button_key_logout):
-    # Button 1 is clicked
-    st.write("Logging Out!")
-    st.session_state.page = "login"
+    # Check if any rows match and return the predicted value from the specified column
+    if not filtered_data.empty:
+        predicted_value = filtered_data['number_of_pickups'].values[0]
+        return predicted_value
+    
+
+
 
 
 # Initialize session state
@@ -134,11 +138,18 @@ if 'page' not in st.session_state:
 # Routing logic
 if st.session_state.page == 'home':
     main()
+    
+    st.session_state.page = "login"
 elif st.session_state.page == 'login':
     show_login()
     
 elif st.session_state.page == 'prediction':
     predict_demand()
+
+if st.button("Log Out", key=button_key_logout):
+    # Button 1 is clicked
+    st.write("Logging Out!")
+    st.session_state.page = "login"
 
 
 if __name__ == "__main__":
