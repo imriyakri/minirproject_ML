@@ -126,8 +126,8 @@ def predict_demand():
     if st.button("Predict"):
     # Check if any rows match and return the predicted value from the specified column
         if not filtered_data.empty:
-        predicted_value = filtered_data['number_of_pickups'].values[0]
-        return predicted_value
+            predicted_value = filtered_data['number_of_pickups'].values[0]
+            return predicted_value
     
 
 
