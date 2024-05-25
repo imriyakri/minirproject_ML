@@ -94,7 +94,7 @@ def predict_demand():
     RateCodeID = st.selectbox("Rate Type", ['Standard rates', 'JFK trips', 'Newark trips', 'Nassau/Westchester trips', 'Negotiated fare', 'Group rides', 'unknown rate code'])
     tipamount = st.number_input("Tip Amount", 0.0)
 
-    if st.button("Predict"):
+    
         
     # Read the CSV file containing pickup data
     pickup_data = pd.read_csv('pickup.csv')
@@ -123,7 +123,7 @@ def predict_demand():
         (pickup_data['pickup_day'] == date) & 
         (pickup_data['pickup_hour'] == hour) 
     ]
-
+    if st.button("Predict"):
     # Check if any rows match and return the predicted value from the specified column
     if not filtered_data.empty:
         predicted_value = filtered_data['number_of_pickups'].values[0]
