@@ -3,9 +3,6 @@ import pandas as pd
 import streamlit as st 
 import pickle
 
-# Load the model and encoder
-model = pickle.load(open('model.pkl', 'rb'))
-
 # Function to display the homepage
 def main():
     st.markdown("""
