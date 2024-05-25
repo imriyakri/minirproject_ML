@@ -115,7 +115,7 @@ def predict_demand():
         if not filtered_data.empty:
             number_of_pickups = pickup_data.columns[-1]
             predicted_value = filtered_data[number_of_pickups].values[0]
-            st.write(f"Predicted value from the last column ({number_of_pickups}):", predicted_value)
+            st.write(f"Predicted value : ({Number of Pickups}):", predicted_value)
         else:
             st.write("No data found.")
     
