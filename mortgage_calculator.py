@@ -93,7 +93,9 @@ def predict_demand():
     trip_distance = st.number_input("Trip Distance", 0.0)
     RateCodeID = st.selectbox("Rate Type", ['Standard rates', 'JFK trips', 'Newark trips', 'Nassau/Westchester trips', 'Negotiated fare', 'Group rides', 'unknown rate code'])
     tipamount = st.number_input("Tip Amount", 0.0)
-    
+
+    if st.button("Predict"):
+        
     # Read the CSV file containing pickup data
     pickup_data = pd.read_csv('pickup.csv')
     
