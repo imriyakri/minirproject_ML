@@ -45,25 +45,10 @@ def main():
                 background-color: #45a049;
             }
         </style>
-        <div class="main">
-            <div class="title">Driver Demand Prediction App</div>
-                
-            <div class="content">
-                This application is designed to help you make predictions about the demand of drivers based on the data provided by you.
-                Our platform offers a range of features to assist you in your analysis.
-            </div>
-            <div class="header">Features</div>
-                
-            <div class="header">Get Started</div>
-            <div class="content">
-                To get started, simply click the login button below. If you don't have an account,
-                please contact our support team to set one up.
-            </div>
-            <div class="button">
-                <button class="btn-login" onclick="window.location.reload();">Go to Login</button>
-            </div>
-        </div>
     """, unsafe_allow_html=True)
+st.title("Driver Demand Prediction App")
+st.write("This application is designed to help you make predictions about the demand of drivers based on the data provided by you.
+                Our platform offers a range of features to assist you in your analysis.")
 
 if st.button("Go to Login"):
         st.session_state.page = "login"
