@@ -65,7 +65,7 @@ def main():
         </div>
     """, unsafe_allow_html=True)
 
-    if st.button("Go to Login"):
+if st.button("Go to Login"):
         st.session_state.page = "login"
 
 # Function to display the login page
