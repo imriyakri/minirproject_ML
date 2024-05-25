@@ -47,8 +47,7 @@ def main():
         </style>
     """, unsafe_allow_html=True)
 st.title("Driver Demand Prediction App")
-st.write("This application is designed to help you make predictions about the demand of drivers based on the data provided by you.
-                Our platform offers a range of features to assist you in your analysis.")
+st.write("This application is designed to help you make predictions about the demand of drivers based on the data provided by you.Our platform offers a range of features to assist you in your analysis.")
 
 if st.button("Go to Login"):
         st.session_state.page = "login"
