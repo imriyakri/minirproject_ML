@@ -3,6 +3,9 @@ import pandas as pd
 import streamlit as st 
 import pickle
 
+# Load the model and encoder
+#model = pickle.load(open('model.pkl', 'rb'))
+
 # Function to display the homepage
 def main():
     st.markdown("""
@@ -104,7 +107,7 @@ def predict_demand():
     combined_data = pd.concat([pickup_data, input_data], ignore_index=True)
     
     # Predict the demand using the model
-    prediction = model.predict(combined_data)
+    prediction = predict_demand.predict(combined_data)
     
     return prediction[0]
 
@@ -122,9 +125,12 @@ if st.session_state.page == 'home':
     main()
 elif st.session_state.page == 'login':
     show_login()
+    
 elif st.session_state.page == 'prediction':
     predict_demand()
 
 
 if __name__ == "__main__":
     main()
+
+
