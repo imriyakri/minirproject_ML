@@ -7,6 +7,19 @@ import pickle
 #model = pickle.load(open('model.pkl', 'rb'))
 
 # Function to display the homepage
+
+# Define unique keys for each button
+button1_key = "button1"
+button2_key = "button2"
+
+# Create buttons with unique keys
+if st.button("Button 1", key=button1_key):
+    # Button 1 is clicked
+    st.write("Logging Out!")
+
+if st.button("Button 2", key=button2_key):
+    # Button 2 is clicked
+    st.write("Logging In!")
 def main():
     st.markdown("""
         <style>
@@ -63,7 +76,7 @@ def show_login():
     st.write("Please enter your credentials to access the prediction page.")
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
-    if st.button("Login"):
+    if st.button("Login", key = button2_key):
         if username == "admin" and password == "password":
             st.session_state.page = "prediction"
         else:
@@ -112,7 +125,7 @@ def predict_demand():
     return prediction[0]
 
 
-if st.button("Log out"):
+if st.button("Log out",key = button1_key):
     st.session_state.page = "login"
 
 
@@ -132,5 +145,8 @@ elif st.session_state.page == 'prediction':
 
 if __name__ == "__main__":
     main()
+
+
+import streamlit as st
 
 
