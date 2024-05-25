@@ -74,71 +74,44 @@ def show_login():
 def predict_demand():
     st.title("Predict your demand!!")
     st.write("Predict your demand!!")
-
-    month = st.selectbox("Month",["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
-    ]) 
-    hour = st.number_input("Hour","0") 
-    date = st.number_input("Date","1") 
-    location = st.selectbox(" Pickup Location",["Location 1 : Central Park",
-    "Location 2 : Times Square",
-    "Location 3 : Statue of Liberty",
-    "Location 4 : Empire State Building",
-    "Location 5 : Brooklyn Bridge",
-    "Location 6 : Metropolitan Museum of Art",
-    "Location 7 : One World Trade Center",
-    "Location 8 : The High Line",
-    "Location 9 : Rockefeller Center",
-    "Location 10 : American Museum of Natural History",
-    "Location 11 : Broadway",
-    "Location 12 : Battery Park",
-    "Location 13 : Wall Street",
-    "Location 14 : Prospect Park",
-    "Location 15 : Chrysler Building",
-    "Location 16 : Coney Island",
-    "Location 17 : Brooklyn Botanic Garden",
-    "Location 18 : The Bronx Zoo",
-    "Location 19 : Grand Central Terminal",
-    "Location 20 : The Guggenheim Museum",
-    "Location 21 : New York Public Library",
-    "Location 22 : Radio City Music Hall",
-    "Location 23 : The Vessel",
-    "Location 24 : Grand Army Plaza",
-    "Location 25 : St. Patrick's Cathedral",
-    "Location 26 : Central Park Zoo",
-    "Location 27 : Flatiron Building",
-    "Location 28 : The Cloisters",
-    "Location 29 : Madison Square Garden",
-    "Location 30 : Union Square",
-    "Location 31 : Lincoln Center for the Performing Arts",
-    "Location 32 : The Metropolitan Opera",
-    "Location 33 : Bryant Park",
-    "Location 34 : Columbia University",
-    "Location 35 : The Morgan Library & Museum",
-    "Location 36 : Museum of the City of New York",
-    "Location 37 : Chelsea Market",
-    "Location 38 : New York Botanical Garden",
-    "Location 39 : The Frick Collection",
-    "Location 40 : Intrepid Sea, Air & Space Museum"
-    ])
     
-    passenger_count = st.number_input("Passenger Count","0") 
-    trip_distance = st.number_input("Trip Distance","0") 
-    RateCodeID = st.selectbox("Rate Type",['Standard rates','JFK trips','Newark trips','Nassau/Westchester trips','Negotiated fare','Group rides','unknownrate code'])
-    tipamount = st.number_input ("Tip Amount", "0" )
+    # Gather user input
+    month = st.selectbox("Month", ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])
+    hour = st.number_input("Hour", 0)
+    date = st.number_input("Date", 1)
+    location = st.selectbox("Pickup Location", ["Location 1 : Central Park", "Location 2 : Times Square", "Location 3 : Statue of Liberty", "Location 4 : Empire State Building", "Location 5 : Brooklyn Bridge"])
+    passenger_count = st.number_input("Passenger Count", 0)
+    trip_distance = st.number_input("Trip Distance", 0.0)
+    RateCodeID = st.selectbox("Rate Type", ['Standard rates', 'JFK trips', 'Newark trips', 'Nassau/Westchester trips', 'Negotiated fare', 'Group rides', 'unknown rate code'])
+    tipamount = st.number_input("Tip Amount", 0.0)
+    
+    # Read the CSV file containing pickup data
+    pickup_data = pd.read_csv('pickups_df.csv')
+    
+    # Convert month to numeric value
+    month_dict = {"January": 1, "February": 2, "March": 3, "April": 4, "May": 5, "June": 6, "July": 7, "August": 8, "September": 9, "October": 10, "November": 11, "December": 12}
+    month_numeric = month_dict[month]
 
+    # Create a DataFrame with user input
     input_data = pd.DataFrame({
-            'date': [date],
-            'hour': [hour],
-            'location': [location],
-            'passenger_count' : [passenger_count],
-            'trip_distance' : [trip_distance],
-            'tipamount' : [tipamount]
-        })
+        'date': [date],
+        'hour': [hour],
+        'location': [location],
+        'passenger_count': [passenger_count],
+        'trip_distance': [trip_distance],
+        'RateCodeID': [RateCodeID],
+        'tipamount': [tipamount],
+        'month': [month_numeric]
+    })
     
-    inputt_data = pd.read_csv('pickups_df.csv')
+    # Combine user input with pickup data
+    combined_data = pd.concat([pickup_data, input_data], ignore_index=True)
+    
     # Predict the demand using the model
-    prediction = model.predict(inputt_data)  
+    prediction = model.predict(combined_data)
+    
     return prediction[0]
+
 
 if st.button("Log out"):
     st.session_state.page = "login"
