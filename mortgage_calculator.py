@@ -11,8 +11,8 @@ import pickle
 # Define unique keys for each button
 
 button_key_login = "button_login"
-button_key_logout = "button_logout"
-button_key_login2 = "button_login2"
+logout = "button_logout"
+login2 = "button_login2"
 
 
 def main():
@@ -73,7 +73,7 @@ def show_login():
     password = st.text_input("Password", type="password")
 
     
-    if st.button("Login", key = button_key_login2):
+    if st.button("Login", key = login2):
         if username == "admin" and password == "password":
             st.session_state.page = "prediction"
         else:
@@ -134,8 +134,7 @@ elif st.session_state.page == 'login':
 elif st.session_state.page == 'prediction':
     predict_demand()
 
-if st.button("Log Out", key=button_key_logout):
-    # Button 1 is clicked
+if st.button("Log Out", key=logout):
     st.write("Logging Out!")
     st.session_state.page = "login"
 
