@@ -71,7 +71,7 @@ def show_login():
             st.error("Invalid username or password")
 
 # Function to display the prediction page
-def predict_demand(date, hour, location):
+def predict_demand():
     st.title("Predict your demand!!")
     st.write("Predict your demand!!")
 
