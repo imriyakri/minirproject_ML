@@ -6,7 +6,7 @@ import pickle
 # Load the model and encoder
 # model = pickle.load(open('model.pkl', 'rb'))
 
-# Define unique keys for each button
+# Define unique keys for each widget
 keys = {
     "home_login": "home_login_btn",
     "home_signup": "home_signup_btn",
@@ -260,5 +260,5 @@ elif st.session_state.page == 'login':
     show_login()
 elif st.session_state.page == 'prediction':
     predict_demand()
-if __name__ == "__main__": 
+if __name__ == "__main__":
     main()
