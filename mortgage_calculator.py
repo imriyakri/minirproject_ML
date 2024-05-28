@@ -15,7 +15,20 @@ keys = {
     "login_login": "login_login_btn",
     "login_signup": "login_signup_btn",
     "predict": "predict_btn",
-    "logout": "logout_btn"
+    "logout": "logout_btn",
+    "signup_new_username": "signup_new_username_input",
+    "signup_new_password": "signup_new_password_input",
+    "signup_confirm_password": "signup_confirm_password_input",
+    "login_username": "login_username_input",
+    "login_password": "login_password_input",
+    "predict_month": "predict_month_input",
+    "predict_hour": "predict_hour_input",
+    "predict_date": "predict_date_input",
+    "predict_location": "predict_location_input",
+    "predict_passenger_count": "predict_passenger_count_input",
+    "predict_trip_distance": "predict_trip_distance_input",
+    "predict_rate_code": "predict_rate_code_input",
+    "predict_tip_amount": "predict_tip_amount_input"
 }
 
 def main():
@@ -111,9 +124,9 @@ def show_signup():
     """, unsafe_allow_html=True)
     st.title("Sign Up")
     st.write("Create an account to access the prediction page.")
-    new_username = st.text_input("New Username", key="signup_new_username")
-    new_password = st.text_input("New Password", type="password", key="signup_new_password")
-    confirm_password = st.text_input("Confirm Password", type="password", key="signup_confirm_password")
+    new_username = st.text_input("New Username", key=keys["signup_new_username"])
+    new_password = st.text_input("New Password", type="password", key=keys["signup_new_password"])
+    confirm_password = st.text_input("Confirm Password", type="password", key=keys["signup_confirm_password"])
     
     if st.button("Sign Up", key=keys["signup_signup"]):
         if new_password == confirm_password:
@@ -160,8 +173,8 @@ def show_login():
     """, unsafe_allow_html=True)
     st.title("Login")
     st.write("Please enter your credentials to access the prediction page.")
-    username = st.text_input("Username", key="login_username")
-    password = st.text_input("Password", type="password", key="login_password")
+    username = st.text_input("Username", key=keys["login_username"])
+    password = st.text_input("Password", type="password", key=keys["login_password"])
     
     if st.button("Login", key=keys["login_login"]):
         if username == "admin" and password == "password":
@@ -209,14 +222,14 @@ def predict_demand():
     st.write("Predict your demand!!")
     
     # Gather user input
-    month = st.selectbox("Month", ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], key="predict_month")
-    hour = st.number_input("Hour", 0, key="predict_hour")
-    date = st.number_input("Date", 1, key="predict_date")
-    location = st.selectbox("Pickup Location", ["Location 1 : Central Park", "Location 2 : Times Square", "Location 3 : Statue of Liberty", "Location 4 : Empire State Building", "Location 5 : Brooklyn Bridge"], key="predict_location")
-    passenger_count = st.number_input("Passenger Count", 0, key="predict_passenger_count")
-    trip_distance = st.number_input("Trip Distance", 0.0, key="predict_trip_distance")
-    RateCodeID = st.selectbox("Rate Type", ['Standard rates', 'JFK trips', 'Newark trips', 'Nassau/Westchester trips', 'Negotiated fare', 'Group rides', 'unknown rate code'], key="predict_rate_code")
-    tipamount = st.number_input("Tip Amount", 0.0, key="predict_tip_amount")
+    month = st.selectbox("Month", ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], key=keys["predict_month"])
+    hour = st.number_input("Hour", 0, key=keys["predict_hour"])
+    date = st.number_input("Date", 1, key=keys["predict_date"])
+    location = st.selectbox("Pickup Location", ["Location 1 : Central Park", "Location 2 : Times Square", "Location 3 : Statue of Liberty", "Location 4 : Empire State Building", "Location 5 : Brooklyn Bridge"], key=keys["predict_location"])
+    passenger_count = st.number_input("Passenger Count", 0, key=keys["predict_passenger_count"])
+    trip_distance = st.number_input("Trip Distance", 0.0, key=keys["predict_trip_distance"])
+    RateCodeID = st.selectbox("Rate Type", ['Standard rates', 'JFK trips', 'Newark trips', 'Nassau/Westchester trips', 'Negotiated fare', 'Group rides', 'unknown rate code'], key=keys["predict_rate_code"])
+    tipamount = st.number_input("Tip Amount", 0.0, key=keys["predict_tip_amount"])
 
     if st.button("Predict", key=keys["predict"]):
         # Convert month to numeric value
@@ -260,5 +273,5 @@ elif st.session_state.page == 'login':
     show_login()
 elif st.session_state.page == 'prediction':
     predict_demand()
-if __name__ == "__main__":
+if __name__ == "__main__": 
     main()
