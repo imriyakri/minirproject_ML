@@ -8,14 +8,14 @@ import pickle
 
 # Define unique keys for each button
 keys = {
-    "home_login": "home_login",
-    "home_signup": "home_signup",
-    "signup_signup": "signup_signup",
-    "signup_login": "signup_login",
-    "login_login": "login_login",
-    "login_signup": "login_signup",
-    "predict": "predict",
-    "logout": "logout"
+    "home_login": "home_login_btn",
+    "home_signup": "home_signup_btn",
+    "signup_signup": "signup_signup_btn",
+    "signup_login": "signup_login_btn",
+    "login_login": "login_login_btn",
+    "login_signup": "login_signup_btn",
+    "predict": "predict_btn",
+    "logout": "logout_btn"
 }
 
 def main():
@@ -111,9 +111,9 @@ def show_signup():
     """, unsafe_allow_html=True)
     st.title("Sign Up")
     st.write("Create an account to access the prediction page.")
-    new_username = st.text_input("New Username")
-    new_password = st.text_input("New Password", type="password")
-    confirm_password = st.text_input("Confirm Password", type="password")
+    new_username = st.text_input("New Username", key="signup_new_username")
+    new_password = st.text_input("New Password", type="password", key="signup_new_password")
+    confirm_password = st.text_input("Confirm Password", type="password", key="signup_confirm_password")
     
     if st.button("Sign Up", key=keys["signup_signup"]):
         if new_password == confirm_password:
@@ -160,8 +160,8 @@ def show_login():
     """, unsafe_allow_html=True)
     st.title("Login")
     st.write("Please enter your credentials to access the prediction page.")
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
+    username = st.text_input("Username", key="login_username")
+    password = st.text_input("Password", type="password", key="login_password")
     
     if st.button("Login", key=keys["login_login"]):
         if username == "admin" and password == "password":
@@ -209,14 +209,14 @@ def predict_demand():
     st.write("Predict your demand!!")
     
     # Gather user input
-    month = st.selectbox("Month", ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])
-    hour = st.number_input("Hour", 0)
-    date = st.number_input("Date", 1)
-    location = st.selectbox("Pickup Location", ["Location 1 : Central Park", "Location 2 : Times Square", "Location 3 : Statue of Liberty", "Location 4 : Empire State Building", "Location 5 : Brooklyn Bridge"])
-    passenger_count = st.number_input("Passenger Count", 0)
-    trip_distance = st.number_input("Trip Distance", 0.0)
-    RateCodeID = st.selectbox("Rate Type", ['Standard rates', 'JFK trips', 'Newark trips', 'Nassau/Westchester trips', 'Negotiated fare', 'Group rides', 'unknown rate code'])
-    tipamount = st.number_input("Tip Amount", 0.0)
+    month = st.selectbox("Month", ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], key="predict_month")
+    hour = st.number_input("Hour", 0, key="predict_hour")
+    date = st.number_input("Date", 1, key="predict_date")
+    location = st.selectbox("Pickup Location", ["Location 1 : Central Park", "Location 2 : Times Square", "Location 3 : Statue of Liberty", "Location 4 : Empire State Building", "Location 5 : Brooklyn Bridge"], key="predict_location")
+    passenger_count = st.number_input("Passenger Count", 0, key="predict_passenger_count")
+    trip_distance = st.number_input("Trip Distance", 0.0, key="predict_trip_distance")
+    RateCodeID = st.selectbox("Rate Type", ['Standard rates', 'JFK trips', 'Newark trips', 'Nassau/Westchester trips', 'Negotiated fare', 'Group rides', 'unknown rate code'], key="predict_rate_code")
+    tipamount = st.number_input("Tip Amount", 0.0, key="predict_tip_amount")
 
     if st.button("Predict", key=keys["predict"]):
         # Convert month to numeric value
@@ -260,6 +260,5 @@ elif st.session_state.page == 'login':
     show_login()
 elif st.session_state.page == 'prediction':
     predict_demand()
-
-if __name__ == "__main__":
+if __name__ == "__main__": 
     main()
