@@ -9,16 +9,9 @@ import pickle
 # Define unique keys for each widget
 keys = {
     "home_login": "home_login_btn",
-    "home_signup": "home_signup_btn",
-    "signup_signup": "signup_signup_btn",
-    "signup_login": "signup_login_btn",
     "login_login": "login_login_btn",
-    "login_signup": "login_signup_btn",
     "predict": "predict_btn",
     "logout": "logout_btn",
-    "signup_new_username": "signup_new_username_input",
-    "signup_new_password": "signup_new_password_input",
-    "signup_confirm_password": "signup_confirm_password_input",
     "login_username": "login_username_input",
     "login_password": "login_password_input",
     "predict_month": "predict_month_input",
@@ -80,61 +73,7 @@ def main():
     st.title("Driver Demand Prediction App")
     st.write("This application is designed to help you make predictions about the demand for drivers based on the data provided by you. Our platform offers a range of features to assist you in your analysis.")
     
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("Sign Up", key=keys["home_signup"]):
-            st.session_state.page = "signup"
-    with col2:
-        if st.button("Go to Login", key=keys["home_login"]):
-            st.session_state.page = "login"
-
-def show_signup():
-    st.markdown("""
-        <style>
-            .header {
-                font-size: 24px;
-                color: #333333;
-                margin-bottom: 10px;
-            }
-            .content {
-                font-size: 18px;
-                color: #666666;
-                margin-bottom: 20px;
-                line-height: 1.6;
-            }
-            .button {
-                display: flex;
-                justify-content: center;
-                margin-bottom: 20px;
-            }
-            .btn-signup {
-                background-color: #4CAF50;
-                color: white;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                font-size: 18px;
-                text-align: center;
-            }
-            .btn-signup:hover {
-                background-color: #45a049;
-            }
-        </style>
-    """, unsafe_allow_html=True)
-    st.title("Sign Up")
-    st.write("Create an account to access the prediction page.")
-    new_username = st.text_input("New Username", key=keys["signup_new_username"])
-    new_password = st.text_input("New Password", type="password", key=keys["signup_new_password"])
-    confirm_password = st.text_input("Confirm Password", type="password", key=keys["signup_confirm_password"])
-    
-    if st.button("Sign Up", key=keys["signup_signup"]):
-        if new_password == confirm_password:
-            st.success("Account created successfully! Please log in.")
-            st.session_state.page = "login"
-        else:
-            st.error("Passwords do not match.")
-    if st.button("Go to Login", key=keys["signup_login"]):
+    if st.button("Go to Login", key=keys["home_login"]):
         st.session_state.page = "login"
 
 def show_login():
@@ -181,8 +120,6 @@ def show_login():
             st.session_state.page = "prediction"
         else:
             st.error("Invalid username or password")
-    if st.button("Go to Sign Up", key=keys["login_signup"]):
-        st.session_state.page = "signup"
 
 def predict_demand():
     st.markdown("""
@@ -267,8 +204,6 @@ if 'page' not in st.session_state:
 # Routing logic
 if st.session_state.page == 'home':
     main()
-elif st.session_state.page == 'signup':
-    show_signup()
 elif st.session_state.page == 'login':
     show_login()
 elif st.session_state.page == 'prediction':
