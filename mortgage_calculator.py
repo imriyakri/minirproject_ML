@@ -25,56 +25,67 @@ keys = {
 }
 
 def main():
-    st.markdown("""
-        <style>
-            .main {
-                background-color: #f5f5f5;
-                padding: 20px;
-                border-radius: 10px;
-            }
-            .title {
-                text-align: center;
-                font-size: 36px;
-                color: #4CAF50;
-                margin-bottom: 20px;
-            }
-            .header {
-                font-size: 24px;
-                color: #333333;
-                margin-bottom: 10px;
-            }
-            .content {
-                font-size: 18px;
-                color: #666666;
-                margin-bottom: 20px;
-                line-height: 1.6;
-            }
-            .button {
-                display: flex;
-                justify-content: center;
-                margin-bottom: 20px;
-            }
-            .btn {
-                background-color: #4CAF50;
-                color: white;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                font-size: 18px;
-                text-align: center;
-                margin: 5px;
-            }
-            .btn:hover {
-                background-color: #45a049;
-            }
-        </style>
-    """, unsafe_allow_html=True)
-    st.title("Driver Demand Prediction App")
-    st.write("This application is designed to help you make predictions about the demand for drivers based on the data provided by you. Our platform offers a range of features to assist you in your analysis.")
-    
-    if st.button("Go to Login", key=keys["home_login"]):
-        st.session_state.page = "login"
+    # Check if the user is logged in
+    if 'loggedin' not in st.session_state:
+        st.session_state.loggedin = False
+
+    # If not logged in, show the homepage
+    if not st.session_state.loggedin:
+        st.markdown("""
+            <style>
+                .main {
+                    background-color: #f5f5f5;
+                    padding: 20px;
+                    border-radius: 10px;
+                }
+                .title {
+                    text-align: center;
+                    font-size: 36px;
+                    color: #4CAF50;
+                    margin-bottom: 20px;
+                }
+                .header {
+                    font-size: 24px;
+                    color: #333333;
+                    margin-bottom: 10px;
+                }
+                .content {
+                    font-size: 18px;
+                    color: #666666;
+                    margin-bottom: 20px;
+                    line-height: 1.6;
+                }
+                .button {
+                    display: flex;
+                    justify-content: center;
+                    margin-bottom: 20px;
+                }
+                .btn {
+                    background-color: #4CAF50;
+                    color: white;
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-size: 18px;
+                    text-align: center;
+                    margin: 5px;
+                }
+                .btn:hover {
+                    background-color: #45a049;
+                }
+            </style>
+        """, unsafe_allow_html=True)
+        st.title("Driver Demand Prediction App")
+        st.write("This application is designed to help you make predictions about the demand for drivers based on the data provided by you. Our platform offers a range of features to assist you in your analysis.")
+        
+        # Show login button
+        if st.button("Go to Login", key=keys["home_login"]):
+            st.session_state.loggedin = True
+
+    # If logged in, show the login page
+    elif st.session_state.loggedin:
+        show_login()
 
 def show_login():
     st.markdown("""
@@ -118,6 +129,7 @@ def show_login():
     if st.button("Login", key=keys["login_login"]):
         if username == "admin" and password == "password":
             st.session_state.page = "prediction"
+            st.session_state.loggedin = True
         else:
             st.error("Invalid username or password")
 
@@ -196,6 +208,7 @@ def predict_demand():
     if st.button("Log Out", key=keys["logout"]):
         st.write("Logging Out!")
         st.session_state.page = "login"
+        st.session_state.loggedin = False
 
 # Initialize session state
 if 'page' not in st.session_state:
@@ -208,5 +221,3 @@ elif st.session_state.page == 'login':
     show_login()
 elif st.session_state.page == 'prediction':
     predict_demand()
-if __name__ == "__main__": 
-    main()
