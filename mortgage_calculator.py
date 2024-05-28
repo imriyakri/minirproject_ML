@@ -7,9 +7,16 @@ import pickle
 # model = pickle.load(open('model.pkl', 'rb'))
 
 # Define unique keys for each button
-login_keys = ["login1", "login2", "signup_login"]
-logout_key = "logout"
-signup_key = "signup"
+keys = {
+    "home_login": "home_login",
+    "home_signup": "home_signup",
+    "signup_signup": "signup_signup",
+    "signup_login": "signup_login",
+    "login_login": "login_login",
+    "login_signup": "login_signup",
+    "predict": "predict",
+    "logout": "logout"
+}
 
 def main():
     st.markdown("""
@@ -62,10 +69,10 @@ def main():
     
     col1, col2 = st.columns(2)
     with col1:
-        if st.button("Sign Up", key=signup_key):
+        if st.button("Sign Up", key=keys["home_signup"]):
             st.session_state.page = "signup"
     with col2:
-        if st.button("Go to Login", key=login_keys[0]):
+        if st.button("Go to Login", key=keys["home_login"]):
             st.session_state.page = "login"
 
 def show_signup():
@@ -108,13 +115,13 @@ def show_signup():
     new_password = st.text_input("New Password", type="password")
     confirm_password = st.text_input("Confirm Password", type="password")
     
-    if st.button("Sign Up", key=signup_key):
+    if st.button("Sign Up", key=keys["signup_signup"]):
         if new_password == confirm_password:
             st.success("Account created successfully! Please log in.")
             st.session_state.page = "login"
         else:
             st.error("Passwords do not match.")
-    if st.button("Go to Login", key=login_keys[2]):
+    if st.button("Go to Login", key=keys["signup_login"]):
         st.session_state.page = "login"
 
 def show_login():
@@ -156,12 +163,12 @@ def show_login():
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
     
-    if st.button("Login", key=login_keys[1]):
+    if st.button("Login", key=keys["login_login"]):
         if username == "admin" and password == "password":
             st.session_state.page = "prediction"
         else:
             st.error("Invalid username or password")
-    if st.button("Go to Sign Up", key=signup_key):
+    if st.button("Go to Sign Up", key=keys["login_signup"]):
         st.session_state.page = "signup"
 
 def predict_demand():
@@ -211,7 +218,7 @@ def predict_demand():
     RateCodeID = st.selectbox("Rate Type", ['Standard rates', 'JFK trips', 'Newark trips', 'Nassau/Westchester trips', 'Negotiated fare', 'Group rides', 'unknown rate code'])
     tipamount = st.number_input("Tip Amount", 0.0)
 
-    if st.button("Predict", key="predict"):
+    if st.button("Predict", key=keys["predict"]):
         # Convert month to numeric value
         month_dict = {
             "January": 1, "February": 2, "March": 3, "April": 4, "May": 5, 
@@ -236,7 +243,7 @@ def predict_demand():
         else:
             st.write("No data found.")
     
-    if st.button("Log Out", key=logout_key):
+    if st.button("Log Out", key=keys["logout"]):
         st.write("Logging Out!")
         st.session_state.page = "login"
 
