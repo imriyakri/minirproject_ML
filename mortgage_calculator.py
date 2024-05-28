@@ -1,16 +1,15 @@
 import numpy as np
 import pandas as pd
-import streamlit as st 
+import streamlit as st
 import pickle
 
 # Load the model and encoder
-#model = pickle.load(open('model.pkl', 'rb'))
-
-# Function to display the homepage
+# model = pickle.load(open('model.pkl', 'rb'))
 
 # Define unique keys for each button
-login_keys = ["login1", "login2"]
+login_keys = ["login1", "login2", "signup_login"]
 logout_key = "logout"
+signup_key = "signup"
 
 def main():
     st.markdown("""
@@ -40,6 +39,102 @@ def main():
             .button {
                 display: flex;
                 justify-content: center;
+                margin-bottom: 20px;
+            }
+            .btn {
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 18px;
+                text-align: center;
+                margin: 5px;
+            }
+            .btn:hover {
+                background-color: #45a049;
+            }
+        </style>
+    """, unsafe_allow_html=True)
+    st.title("Driver Demand Prediction App")
+    st.write("This application is designed to help you make predictions about the demand for drivers based on the data provided by you. Our platform offers a range of features to assist you in your analysis.")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Sign Up", key=signup_key):
+            st.session_state.page = "signup"
+    with col2:
+        if st.button("Go to Login", key=login_keys[0]):
+            st.session_state.page = "login"
+
+def show_signup():
+    st.markdown("""
+        <style>
+            .header {
+                font-size: 24px;
+                color: #333333;
+                margin-bottom: 10px;
+            }
+            .content {
+                font-size: 18px;
+                color: #666666;
+                margin-bottom: 20px;
+                line-height: 1.6;
+            }
+            .button {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 20px;
+            }
+            .btn-signup {
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 18px;
+                text-align: center;
+            }
+            .btn-signup:hover {
+                background-color: #45a049;
+            }
+        </style>
+    """, unsafe_allow_html=True)
+    st.title("Sign Up")
+    st.write("Create an account to access the prediction page.")
+    new_username = st.text_input("New Username")
+    new_password = st.text_input("New Password", type="password")
+    confirm_password = st.text_input("Confirm Password", type="password")
+    
+    if st.button("Sign Up", key=signup_key):
+        if new_password == confirm_password:
+            st.success("Account created successfully! Please log in.")
+            st.session_state.page = "login"
+        else:
+            st.error("Passwords do not match.")
+    if st.button("Go to Login", key=login_keys[2]):
+        st.session_state.page = "login"
+
+def show_login():
+    st.markdown("""
+        <style>
+            .header {
+                font-size: 24px;
+                color: #333333;
+                margin-bottom: 10px;
+            }
+            .content {
+                font-size: 18px;
+                color: #666666;
+                margin-bottom: 20px;
+                line-height: 1.6;
+            }
+            .button {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 20px;
             }
             .btn-login {
                 background-color: #4CAF50;
@@ -56,28 +151,53 @@ def main():
             }
         </style>
     """, unsafe_allow_html=True)
-    st.title("Driver Demand Prediction App")
-    st.write("This application is designed to help you make predictions about the demand of drivers based on the data provided by you.Our platform offers a range of features to assist you in your analysis.")
-
-    if st.button("Go to Login",key = login_keys[0]):
-        st.session_state.page = "login"
-
-# Function to display the login page
-def show_login():
     st.title("Login")
     st.write("Please enter your credentials to access the prediction page.")
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
-
     
-    if st.button("Login", key = login_keys[1]):
+    if st.button("Login", key=login_keys[1]):
         if username == "admin" and password == "password":
             st.session_state.page = "prediction"
         else:
             st.error("Invalid username or password")
+    if st.button("Go to Sign Up", key=signup_key):
+        st.session_state.page = "signup"
 
-# Function to display the prediction page
 def predict_demand():
+    st.markdown("""
+        <style>
+            .header {
+                font-size: 24px;
+                color: #333333;
+                margin-bottom: 10px;
+            }
+            .content {
+                font-size: 18px;
+                color: #666666;
+                margin-bottom: 20px;
+                line-height: 1.6;
+            }
+            .button {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 20px;
+            }
+            .btn-predict {
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 18px;
+                text-align: center;
+            }
+            .btn-predict:hover {
+                background-color: #45a049;
+            }
+        </style>
+    """, unsafe_allow_html=True)
     st.title("Predict your demand!!")
     st.write("Predict your demand!!")
     
@@ -91,7 +211,7 @@ def predict_demand():
     RateCodeID = st.selectbox("Rate Type", ['Standard rates', 'JFK trips', 'Newark trips', 'Nassau/Westchester trips', 'Negotiated fare', 'Group rides', 'unknown rate code'])
     tipamount = st.number_input("Tip Amount", 0.0)
 
-    if st.button("Predict"):
+    if st.button("Predict", key="predict"):
         # Convert month to numeric value
         month_dict = {
             "January": 1, "February": 2, "March": 3, "April": 4, "May": 5, 
@@ -116,6 +236,10 @@ def predict_demand():
         else:
             st.write("No data found.")
     
+    if st.button("Log Out", key=logout_key):
+        st.write("Logging Out!")
+        st.session_state.page = "login"
+
 # Initialize session state
 if 'page' not in st.session_state:
     st.session_state.page = 'home'
@@ -123,22 +247,12 @@ if 'page' not in st.session_state:
 # Routing logic
 if st.session_state.page == 'home':
     main()
-    
-    st.session_state.page = "login"
+elif st.session_state.page == 'signup':
+    show_signup()
 elif st.session_state.page == 'login':
     show_login()
-    
 elif st.session_state.page == 'prediction':
     predict_demand()
 
-if st.button("Log Out", key=logout_key):
-    st.write("Logging Out!")
-    st.session_state.page = "login"
-
-
 if __name__ == "__main__":
     main()
-
-
-
-
