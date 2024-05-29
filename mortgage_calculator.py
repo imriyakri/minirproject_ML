@@ -7,9 +7,12 @@ import matplotlib.pyplot as plt
 # Function to plot the distribution of parameters
 def dist_of_params(frame, variable, title):
     frame_reset_index = frame.reset_index(drop=True)  # Reset index to avoid duplicate labels
-    sns.FacetGrid(frame_reset_index, height=6).map(sns.kdeplot, variable).add_legend()
+    plt.figure(figsize=(10, 6))
+    sns.kdeplot(frame_reset_index[variable], shade=True)
     plt.title(title)
-    plt.show()    
+    plt.xlabel(variable)
+    plt.ylabel('Density')
+    st.pyplot(plt.gcf())
 
 # Function to display the homepage
 def main():
