@@ -128,7 +128,7 @@ def predict_demand():
     combined_data = pd.concat([pickup_data, input_data], ignore_index=True)
 
     # Add the buttons side by side
-    col1, col2 = st.columns([1, 1])
+    col1, col2, col3 = st.columns([1, 1, 1])
     with col1:
         if st.button("Predict"):
             # Predict the demand using the model (mocked here as we don't have the actual model)
@@ -144,9 +144,13 @@ def predict_demand():
                 st.write("No data available for the selected inputs.")
     with col2:
         if st.button("Show Graphs"):
-            st.image("Screenshot 2024-05-29 225832.png", caption="This is a sample image", use_column_width=True)
-            st.image("Screenshot 2024-05-29 225917.png", caption="This is a sample image", use_column_width=True)
-            st.image("Screenshot 2024-05-29 225932.png", caption="This is a sample image", use_column_width=True)
+            st.image("Screenshot 2024-05-29 225832.png", caption="", use_column_width=True)
+            st.image("Screenshot 2024-05-29 225917.png", caption="", use_column_width=True)
+            st.image("Screenshot 2024-05-29 225932.png", caption="", use_column_width=True)
+    with col3:
+        if st.button("Logout"):
+            st.session_state.page = 'login'
+            st.experimental_rerun()  
 
 # Initialize session state
 if 'page' not in st.session_state:
