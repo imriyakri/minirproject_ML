@@ -1,4 +1,3 @@
-
 import numpy as np
 import pandas as pd
 import streamlit as st
@@ -76,13 +75,13 @@ def show_login():
     if st.button("Login"):
         if username == "admin" and password == "password":
             st.session_state.page = "prediction"
+            st.experimental_rerun()  # Refresh the app to reflect the new state
         else:
             st.error("Invalid username or password")
 
 # Function to display the prediction page
 def predict_demand():
     st.title("Predict Your Demand")
-    st.write("Predict your demand!!")
 
     # Gather user input
     month = st.selectbox("Month", ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])
@@ -138,15 +137,15 @@ def predict_demand():
             
             dist_of_params(additional_data, 'trip_times', 'Time for cab trips distribution (in minutes)')
             additional_data['log_times'] = np.log(additional_data['trip_times'].values)
-            
+            dist_of_params(additional_data, 'log_times', 'Log of time for cab trips distribution')
 
             dist_of_params(additional_data, 'trip_distance', 'Distance for cab trips distribution')
             additional_data['log_distance'] = np.log(additional_data['trip_distance'].values)
-           
+            dist_of_params(additional_data, 'log_distance', 'Log of distance for cab trips distribution')
 
             dist_of_params(additional_data, 'Speed', 'Average speed of cab trips distribution')
             additional_data['log_speed'] = np.log(additional_data['Speed'].values)
-           
+            dist_of_params(additional_data, 'log_speed', 'Log of speed for cab trips distribution')
 
 # Initialize session state
 if 'page' not in st.session_state:
@@ -160,10 +159,7 @@ elif st.session_state.page == 'login':
 elif st.session_state.page == 'prediction':
     predict_demand()
 
-if st.button("Log Out"):
-    st.write("Logging Out!")
-    st.session_state.page = "login"
-    st.experimental_rerun()
-
+# Run the app
 if __name__ == "__main__":
     main()
+
