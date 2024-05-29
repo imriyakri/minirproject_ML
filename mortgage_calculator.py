@@ -15,14 +15,7 @@ def dist_of_params(frame, variable, title):
     plt.ylabel('Density')
     st.pyplot(plt.gcf())
 
-# Load the model and encoder
-# model = pickle.load(open('model.pkl', 'rb'))
-
 # Function to display the homepage
-button_key_login = "button_login"
-button_key_logout = "button_logout"
-button_key_login2 = "button_login2"
-
 def main():
     st.markdown("""
         <style>
@@ -68,9 +61,9 @@ def main():
         </style>
     """, unsafe_allow_html=True)
     st.title("Driver Demand Prediction App")
-    st.write("This application is designed to help you make predictions about the demand of drivers based on the data provided by you.Our platform offers a range of features to assist you in your analysis.")
+    st.write("This application is designed to help you make predictions about the demand of drivers based on the data provided by you. Our platform offers a range of features to assist you in your analysis.")
 
-    if st.button("Go to Login", key=button_key_login):
+    if st.button("Go to Login"):
         st.session_state.page = "login"
 
 # Function to display the login page
@@ -80,7 +73,7 @@ def show_login():
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
 
-    if st.button("Login", key=button_key_login2):
+    if st.button("Login"):
         if username == "admin" and password == "password":
             st.session_state.page = "prediction"
         else:
@@ -88,8 +81,8 @@ def show_login():
 
 # Function to display the prediction page
 def predict_demand():
-    st.title("Predict your demand!!")
-
+    st.title("Predict Your Demand")
+    st.write("Predict your demand!!")
 
     # Gather user input
     month = st.selectbox("Month", ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])
@@ -123,24 +116,16 @@ def predict_demand():
     # Combine user input with pickup data
     combined_data = pd.concat([pickup_data, input_data], ignore_index=True)
 
-    filtered_data = pickup_data[
-        (pickup_data['pickup_day'] == date) &
-        (pickup_data['pickup_hour'] == hour)
-    ]
-
-    if not filtered_data.empty:
-        predicted_value = filtered_data['number_of_pickups'].values[0]
-        st.write(f"Predicted number of pickups: {predicted_value}")
-    else:
-        st.write("No data available for the selected inputs.")
-
-    # Read the additional dataset for plotting
-    additional_data = pd.read_csv('frame_with_durations_outliers_removed.csv')
-
     # Add the buttons side by side
     col1, col2 = st.columns([1, 1])
     with col1:
         if st.button("Predict"):
+            # Predict the demand using the model (mocked here as we don't have the actual model)
+            filtered_data = pickup_data[
+                (pickup_data['pickup_day'] == date) &
+                (pickup_data['pickup_hour'] == hour)
+            ]
+
             if not filtered_data.empty:
                 predicted_value = filtered_data['number_of_pickups'].values[0]
                 st.write(f"Predicted number of pickups: {predicted_value}")
@@ -148,17 +133,20 @@ def predict_demand():
                 st.write("No data available for the selected inputs.")
     with col2:
         if st.button("Show Graphs"):
+            # Read the additional dataset for plotting
+            additional_data = pd.read_csv('frame_with_durations_outliers_removed.csv')
+            
             dist_of_params(additional_data, 'trip_times', 'Time for cab trips distribution (in minutes)')
             additional_data['log_times'] = np.log(additional_data['trip_times'].values)
-            dist_of_params(additional_data, 'log_times', 'Log of time for cab trips distribution')
+            
 
             dist_of_params(additional_data, 'trip_distance', 'Distance for cab trips distribution')
             additional_data['log_distance'] = np.log(additional_data['trip_distance'].values)
-            dist_of_params(additional_data, 'log_distance', 'Log of distance for cab trips distribution')
+           
 
             dist_of_params(additional_data, 'Speed', 'Average speed of cab trips distribution')
             additional_data['log_speed'] = np.log(additional_data['Speed'].values)
-            dist_of_params(additional_data, 'log_speed', 'Log of speed for cab trips distribution')
+           
 
 # Initialize session state
 if 'page' not in st.session_state:
@@ -172,9 +160,10 @@ elif st.session_state.page == 'login':
 elif st.session_state.page == 'prediction':
     predict_demand()
 
-if st.button("Log Out", key=button_key_logout):
+if st.button("Log Out"):
     st.write("Logging Out!")
     st.session_state.page = "login"
+    st.experimental_rerun()
 
 if __name__ == "__main__":
     main()
