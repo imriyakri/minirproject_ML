@@ -8,10 +8,10 @@ import matplotlib.pyplot as plt
 def dist_of_params(frame, variable, title):
     plt.figure(figsize=(10, 6))  # Adjust figure size if needed
     # Plot the distribution based on the feature variable
-    if feature_variable in dataframe.columns:
+    if variable in frame.columns:
         sns.kdeplot(data=frame[variable])
         plt.title(title)
-        plt.xlabel(feature_variable)  # Set x-axis label
+        plt.xlabel(variable)  # Set x-axis label
         plt.ylabel('Density')         # Set y-axis label
         plt.grid(True)                # Add grid lines
         plt.show()
