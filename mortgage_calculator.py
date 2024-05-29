@@ -144,36 +144,9 @@ def predict_demand():
                 st.write("No data available for the selected inputs.")
     with col2:
         if st.button("Show Graphs"):
-            # Read the additional dataset for plotting
-            try:
-                additional_data = pd.read_csv('frame_with_durations_outliers_removed.csv')
-            except Exception as e:
-                st.error(f"Error loading 'frame_with_durations_outliers_removed.csv': {e}")
-                return
-            
-            # Plot distribution of trip times
-            dist_of_params(additional_data, 'trip_times', 'Time for cab trips distribution (in minutes)')
-
-            # Log trip times
-            log_trip_times = additional_data.trip_times.values
-            additional_data['log_times'] = np.log(log_trip_times)
-            dist_of_params(additional_data, 'log_times', 'Log of time for cab trips distribution')
-
-            # Plot distribution of trip distances
-            log_trip_distance = additional_data.trip_distance.values
-            additional_data['log_distance'] = np.log(log_trip_distance)
-            dist_of_params(additional_data, 'trip_distance', 'Distance for cab trips distribution')
-
-            # Log trip distances
-            dist_of_params(additional_data, 'log_distance', 'Log of distance for cab trips distribution')
-
-            # Plot distribution of trip speed
-            dist_of_params(additional_data, 'Speed', 'Average speed of cab trips distribution')
-
-            # Log trip speed
-            log_trip_speed = additional_data.Speed.values
-            additional_data['log_speed'] = np.log(log_trip_speed)
-            dist_of_params(additional_data, 'log_speed', 'Log of speed for cab trips distribution')
+            st.image("path_to_your_image.jpg", caption="This is a sample image", use_column_width=True)
+            st.image("path_to_your_image.jpg", caption="This is a sample image", use_column_width=True)
+            st.image("path_to_your_image.jpg", caption="This is a sample image", use_column_width=True)
 
 # Initialize session state
 if 'page' not in st.session_state:
