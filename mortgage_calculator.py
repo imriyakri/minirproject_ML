@@ -134,29 +134,28 @@ def predict_demand():
             # Read the additional dataset for plotting
             additional_data = pd.read_csv('frame_with_durations_outliers_removed.csv')
             # Plot distribution of trip times
-dist_of_params(frame_with_durations_outliers_removed, 'trip_times', 'Time for cab trips distribution (in minutes)')
+            dist_of_params(additional_data, 'trip_times', 'Time for cab trips distribution (in minutes)')
 
-# Log trip times
-log_trip_times = additional_data.trip_times.values
-additional_data['log_times'] = np.log(log_trip_times)
-dist_of_params(additional_data, 'log_times', 'Log of time for cab trips distribution')
+            # Log trip times
+            log_trip_times = additional_data.trip_times.values
+            additional_data['log_times'] = np.log(log_trip_times)
+            dist_of_params(additional_data, 'log_times', 'Log of time for cab trips distribution')
 
-# Plot distribution of trip distances
-dist_of_params(additional_data, 'trip_distance', 'Distance for cab trips distribution')
+            # Plot distribution of trip distances
+            dist_of_params(additional_data, 'trip_distance', 'Distance for cab trips distribution')
 
-# Log trip distances
-log_trip_distance = additional_data.trip_distance.values
-additional_data['log_distance'] = np.log(log_trip_distance)
-dist_of_params(additional_data, 'log_distance', 'Log of distance for cab trips distribution')
+            # Log trip distances
+            log_trip_distance = additional_data.trip_distance.values
+            additional_data['log_distance'] = np.log(log_trip_distance)
+            dist_of_params(additional_data, 'log_distance', 'Log of distance for cab trips distribution')
 
-# Plot distribution of trip speed
-dist_of_params(additional_data, 'Speed', 'Average speed of cab trips distribution')
+            # Plot distribution of trip speed
+            dist_of_params(additional_data, 'Speed', 'Average speed of cab trips distribution')
 
-# Log trip speed
-log_trip_speed = additional_data.Speed.values
-additional_data['log_speed'] = np.log(log_trip_speed)
-dist_of_params(additional_data, 'log_speed', 'Log of speed for cab trips distribution')
-            
+            # Log trip speed
+            log_trip_speed = additional_data.Speed.values
+            additional_data['log_speed'] = np.log(log_trip_speed)
+            dist_of_params(additional_data, 'log_speed', 'Log of speed for cab trips distribution')
 
 # Initialize session state
 if 'page' not in st.session_state:
@@ -168,8 +167,7 @@ if st.session_state.page == 'home':
 elif st.session_state.page == 'login':
     show_login()
 elif st.session_state.page == 'prediction':
-    predict_demand()
-
+    predict_demand
 # Run the app
 if __name__ == "__main__":
     main()
