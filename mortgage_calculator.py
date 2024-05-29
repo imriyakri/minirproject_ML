@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 def dist_of_params(frame, variable, title):
     frame_reset_index = frame.reset_index(drop=True)  # Reset index to avoid duplicate labels
     plt.figure(figsize=(10, 6))  # Adjust figure size if needed
-    sns.kdeplot(data=frame_reset_index, x=variable)
+    sns.kdeplot(frame_reset_index, x=variable)
     plt.title(title)
     plt.legend(labels=[variable])  # Add legend with variable name
     plt.xlabel(variable)  # Set x-axis label
