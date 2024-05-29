@@ -6,7 +6,8 @@ import matplotlib.pyplot as plt
 
 # Function to plot the distribution of parameters
 def dist_of_params(frame, variable, title):
-    plt.figure(figsize=(10, 6))  # Adjust figure size if needed
+    frame_reset_index = frame.reset_index(drop=True) 
+    plt.figure(figsize=(frame_reset_index, 6))  # Adjust figure size if needed
     # Plot the distribution based on the feature variable
     if variable in frame.columns:
         sns.kdeplot(data=frame[variable])
