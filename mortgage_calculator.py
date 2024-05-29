@@ -14,8 +14,9 @@ def dist_of_params(frame, variable, title):
         plt.xlabel(variable)  # Set x-axis label
         plt.ylabel('Density')         # Set y-axis label
         plt.grid(True)                # Add grid lines
-        plt.show()
-    
+        st.pyplot(plt)  # Display the plot using Streamlit
+    else:
+        st.error(f"Variable '{variable}' not found in the dataframe.")
 
 # Function to display the homepage
 def main():
@@ -99,11 +100,18 @@ def predict_demand():
     tipamount = st.number_input("Tip Amount", 0.0)
 
     # Read the CSV file containing pickup data
-    pickup_data = pd.read_csv('pickup.csv')
+    try:
+        pickup_data = pd.read_csv('pickup.csv')
+    except Exception as e:
+        st.error(f"Error loading 'pickup.csv': {e}")
+        return
 
     # Convert month to numeric value
     month_dict = {"January": 1, "February": 2, "March": 3, "April": 4, "May": 5, "June": 6, "July": 7, "August": 8, "September": 9, "October": 10, "November": 11, "December": 12}
-    month_numeric = month_dict[month]
+    month_numeric = month_dict.get(month)
+    if month_numeric is None:
+        st.error("Invalid month selected.")
+        return
 
     # Create a DataFrame with user input
     input_data = pd.DataFrame({
@@ -138,28 +146,29 @@ def predict_demand():
     with col2:
         if st.button("Show Graphs"):
             # Read the additional dataset for plotting
-            additional_data = pd.read_csv('frame_with_durations_outliers_removed.csv')
+            try:
+                additional_data = pd.read_csv('frame_with_durations_outliers_removed.csv')
+            except Exception as e:
+                st.error(f"Error loading 'frame_with_durations_outliers_removed.csv': {e}")
+                return
+            
             # Plot distribution of trip times
-            log_trip_times = additional_data.trip_times.values
             dist_of_params(additional_data, 'trip_times', 'Time for cab trips distribution (in minutes)')
 
             # Log trip times
-           
             log_trip_times = additional_data.trip_times.values
             additional_data['log_times'] = np.log(log_trip_times)
             dist_of_params(additional_data, 'log_times', 'Log of time for cab trips distribution')
 
             # Plot distribution of trip distances
             log_trip_distance = additional_data.trip_distance.values
+            additional_data['log_distance'] = np.log(log_trip_distance)
             dist_of_params(additional_data, 'trip_distance', 'Distance for cab trips distribution')
 
             # Log trip distances
-            log_trip_distance = additional_data.trip_distance.values
-            additional_data['log_distance'] = np.log(log_trip_distance)
             dist_of_params(additional_data, 'log_distance', 'Log of distance for cab trips distribution')
 
             # Plot distribution of trip speed
-            log_trip_speed = additional_data.Speed.values
             dist_of_params(additional_data, 'Speed', 'Average speed of cab trips distribution')
 
             # Log trip speed
@@ -178,6 +187,7 @@ elif st.session_state.page == 'login':
     show_login()
 elif st.session_state.page == 'prediction':
     predict_demand()
+
 # Run the app
 if __name__ == "__main__":
     main()
