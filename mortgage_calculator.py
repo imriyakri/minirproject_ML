@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 # Function to plot the distribution of parameters
 def dist_of_params(frame, variable, title):
     frame_reset_index = frame.reset_index(drop=True)  # Reset index to avoid duplicate labels
-    sns.FacetGrid(frame_reset_index, height=6).map(sns.kdeplot, variable).add_legend()
+    sns.FacetGrid(frame_reset_index, height=10).map(sns.kdeplot, variable).add_legend()
     if variable in frame.columns:
         plt.title(title)
         plt.xlabel(variable)  # Set x-axis label
