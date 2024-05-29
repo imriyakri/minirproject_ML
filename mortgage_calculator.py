@@ -6,10 +6,9 @@ import matplotlib.pyplot as plt
 
 # Function to plot the distribution of parameters
 def dist_of_params(frame, variable, title):
-    plt.figure(figsize=(0, 1))  # Adjust figure size if needed
-    # Plot the distribution based on the feature variable
+    frame_reset_index = frame.reset_index(drop=True)  # Reset index to avoid duplicate labels
+    sns.FacetGrid(frame_reset_index, height=6).map(sns.kdeplot, variable).add_legend()
     if variable in frame.columns:
-        sns.kdeplot(data=frame[variable])
         plt.title(title)
         plt.xlabel(variable)  # Set x-axis label
         plt.ylabel('Density')         # Set y-axis label
