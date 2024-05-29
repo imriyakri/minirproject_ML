@@ -2,7 +2,6 @@ pip install streamlit matplotlib seaborn numpy pandas
 import numpy as np
 import pandas as pd
 import streamlit as st
-import pickle
 import seaborn as sns
 import matplotlib.pyplot as plt
 
@@ -139,19 +138,28 @@ def predict_demand():
     # Read the additional dataset for plotting
     additional_data = pd.read_csv('frame_with_durations_outliers_removed.csv')
 
-    # Plotting distributions using the provided function
-    if st.button("Show Graphs"):
-        dist_of_params(additional_data, 'trip_times', 'Time for cab trips distribution (in minutes)')
-        additional_data['log_times'] = np.log(additional_data['trip_times'].values)
-        dist_of_params(additional_data, 'log_times', 'Log of time for cab trips distribution')
+    # Add the buttons side by side
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        if st.button("Predict"):
+            if not filtered_data.empty:
+                predicted_value = filtered_data['number_of_pickups'].values[0]
+                st.write(f"Predicted number of pickups: {predicted_value}")
+            else:
+                st.write("No data available for the selected inputs.")
+    with col2:
+        if st.button("Show Graphs"):
+            dist_of_params(additional_data, 'trip_times', 'Time for cab trips distribution (in minutes)')
+            additional_data['log_times'] = np.log(additional_data['trip_times'].values)
+            dist_of_params(additional_data, 'log_times', 'Log of time for cab trips distribution')
 
-        dist_of_params(additional_data, 'trip_distance', 'Distance for cab trips distribution')
-        additional_data['log_distance'] = np.log(additional_data['trip_distance'].values)
-        dist_of_params(additional_data, 'log_distance', 'Log of distance for cab trips distribution')
+            dist_of_params(additional_data, 'trip_distance', 'Distance for cab trips distribution')
+            additional_data['log_distance'] = np.log(additional_data['trip_distance'].values)
+            dist_of_params(additional_data, 'log_distance', 'Log of distance for cab trips distribution')
 
-        dist_of_params(additional_data, 'Speed', 'Average speed of cab trips distribution')
-        additional_data['log_speed'] = np.log(additional_data['Speed'].values)
-        dist_of_params(additional_data, 'log_speed', 'Log of speed for cab trips distribution')
+            dist_of_params(additional_data, 'Speed', 'Average speed of cab trips distribution')
+            additional_data['log_speed'] = np.log(additional_data['Speed'].values)
+            dist_of_params(additional_data, 'log_speed', 'Log of speed for cab trips distribution')
 
 # Initialize session state
 if 'page' not in st.session_state:
