@@ -16,54 +16,55 @@ def dist_of_params(frame, variable, title):
 
 # Function to display the homepage
 def main():
-    st.markdown("""
-        <style>
-            .main {
-                background-color: #f5f5f5;
-                padding: 20px;
-                border-radius: 10px;
-            }
-            .title {
-                text-align: center;
-                font-size: 36px;
-                color: #4CAF50;
-                margin-bottom: 20px;
-            }
-            .header {
-                font-size: 24px;
-                color: #333333;
-                margin-bottom: 10px;
-            }
-            .content {
-                font-size: 18px;
-                color: #666666;
-                margin-bottom: 20px;
-                line-height: 1.6;
-            }
-            .button {
-                display: flex;
-                justify-content: center;
-            }
-            .btn-login {
-                background-color: #4CAF50;
-                color: white;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                font-size: 18px;
-                text-align: center;
-            }
-            .btn-login:hover {
-                background-color: #45a049;
-            }
-        </style>
-    """, unsafe_allow_html=True)
-    st.title("Driver Demand Prediction App")
-    st.write("This application is designed to help you make predictions about the demand of drivers based on the data provided by you. Our platform offers a range of features to assist you in your analysis.")
+    if st.session_state.page == 'home':
+        st.markdown("""
+            <style>
+                .main {
+                    background-color: #f5f5f5;
+                    padding: 20px;
+                    border-radius: 10px;
+                }
+                .title {
+                    text-align: center;
+                    font-size: 36px;
+                    color: #4CAF50;
+                    margin-bottom: 20px;
+                }
+                .header {
+                    font-size: 24px;
+                    color: #333333;
+                    margin-bottom: 10px;
+                }
+                .content {
+                    font-size: 18px;
+                    color: #666666;
+                    margin-bottom: 20px;
+                    line-height: 1.6;
+                }
+                .button {
+                    display: flex;
+                    justify-content: center;
+                }
+                .btn-login {
+                    background-color: #4CAF50;
+                    color: white;
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-size: 18px;
+                    text-align: center;
+                }
+                .btn-login:hover {
+                    background-color: #45a049;
+                }
+            </style>
+        """, unsafe_allow_html=True)
+        st.title("Driver Demand Prediction App")
+        st.write("This application is designed to help you make predictions about the demand of drivers based on the data provided by you. Our platform offers a range of features to assist you in your analysis.")
 
-    if st.button("Go to Login"):
-        st.session_state.page = "login"
+        if st.button("Go to Login"):
+            st.session_state.page = "login"
 
 # Function to display the login page
 def show_login():
@@ -82,6 +83,7 @@ def show_login():
 # Function to display the prediction page
 def predict_demand():
     st.title("Predict Your Demand")
+    st.write("Predict your demand!!")
 
     # Gather user input
     month = st.selectbox("Month", ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])
@@ -162,4 +164,3 @@ elif st.session_state.page == 'prediction':
 # Run the app
 if __name__ == "__main__":
     main()
-
