@@ -1,19 +1,28 @@
+pip install streamlit matplotlib seaborn numpy pandas
 import numpy as np
 import pandas as pd
-import streamlit as st 
+import streamlit as st
 import pickle
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Function to plot the distribution of parameters
+def dist_of_params(frame, variable, title):
+    frame_reset_index = frame.reset_index(drop=True)  # Reset index to avoid duplicate labels
+    plt.figure(figsize=(10, 6))
+    sns.kdeplot(frame_reset_index[variable], shade=True)
+    plt.title(title)
+    plt.xlabel(variable)
+    plt.ylabel('Density')
+    st.pyplot(plt.gcf())
 
 # Load the model and encoder
-#model = pickle.load(open('model.pkl', 'rb'))
+# model = pickle.load(open('model.pkl', 'rb'))
 
 # Function to display the homepage
-
-# Define unique keys for each button
-
 button_key_login = "button_login"
 button_key_logout = "button_logout"
 button_key_login2 = "button_login2"
-
 
 def main():
     st.markdown("""
@@ -62,7 +71,7 @@ def main():
     st.title("Driver Demand Prediction App")
     st.write("This application is designed to help you make predictions about the demand of drivers based on the data provided by you.Our platform offers a range of features to assist you in your analysis.")
 
-    if st.button("Go to Login",key = button_key_login):
+    if st.button("Go to Login", key=button_key_login):
         st.session_state.page = "login"
 
 # Function to display the login page
@@ -72,8 +81,7 @@ def show_login():
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
 
-    
-    if st.button("Login", key = button_key_login2):
+    if st.button("Login", key=button_key_login2):
         if username == "admin" and password == "password":
             st.session_state.page = "prediction"
         else:
@@ -83,7 +91,7 @@ def show_login():
 def predict_demand():
     st.title("Predict your demand!!")
     st.write("Predict your demand!!")
-    
+
     # Gather user input
     month = st.selectbox("Month", ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])
     hour = st.number_input("Hour", 0)
@@ -93,10 +101,10 @@ def predict_demand():
     trip_distance = st.number_input("Trip Distance", 0.0)
     RateCodeID = st.selectbox("Rate Type", ['Standard rates', 'JFK trips', 'Newark trips', 'Nassau/Westchester trips', 'Negotiated fare', 'Group rides', 'unknown rate code'])
     tipamount = st.number_input("Tip Amount", 0.0)
-    
+
     # Read the CSV file containing pickup data
     pickup_data = pd.read_csv('pickups_df.csv')
-    
+
     # Convert month to numeric value
     month_dict = {"January": 1, "February": 2, "March": 3, "April": 4, "May": 5, "June": 6, "July": 7, "August": 8, "September": 9, "October": 10, "November": 11, "December": 12}
     month_numeric = month_dict[month]
@@ -112,24 +120,38 @@ def predict_demand():
         'tipamount': [tipamount],
         'month': [month_numeric]
     })
-    
+
     # Combine user input with pickup data
     combined_data = pd.concat([pickup_data, input_data], ignore_index=True)
-    
-    # Predict the demand using the model
+
+    # Predict the demand using the model (mocked here as we don't have the actual model)
     filtered_data = pickup_data[
-        (pickup_data['pickup_day'] == date) & 
-        (pickup_data['pickup_hour'] == hour) 
+        (pickup_data['pickup_day'] == date) &
+        (pickup_data['pickup_hour'] == hour)
     ]
 
-    # Check if any rows match and return the predicted value from the specified column
     if not filtered_data.empty:
         predicted_value = filtered_data['number_of_pickups'].values[0]
-        return predicted_value
-    
+        st.write(f"Predicted number of pickups: {predicted_value}")
+    else:
+        st.write("No data available for the selected inputs.")
 
+    # Read the additional dataset for plotting
+    additional_data = pd.read_csv('frame_with_durations_outliers_removed.csv')
 
+    # Plotting distributions using the provided function
+    if st.button("Show Graphs"):
+        dist_of_params(additional_data, 'trip_times', 'Time for cab trips distribution (in minutes)')
+        additional_data['log_times'] = np.log(additional_data['trip_times'].values)
+        dist_of_params(additional_data, 'log_times', 'Log of time for cab trips distribution')
 
+        dist_of_params(additional_data, 'trip_distance', 'Distance for cab trips distribution')
+        additional_data['log_distance'] = np.log(additional_data['trip_distance'].values)
+        dist_of_params(additional_data, 'log_distance', 'Log of distance for cab trips distribution')
+
+        dist_of_params(additional_data, 'Speed', 'Average speed of cab trips distribution')
+        additional_data['log_speed'] = np.log(additional_data['Speed'].values)
+        dist_of_params(additional_data, 'log_speed', 'Log of speed for cab trips distribution')
 
 # Initialize session state
 if 'page' not in st.session_state:
@@ -138,23 +160,14 @@ if 'page' not in st.session_state:
 # Routing logic
 if st.session_state.page == 'home':
     main()
-    
-    st.session_state.page = "login"
 elif st.session_state.page == 'login':
     show_login()
-    
 elif st.session_state.page == 'prediction':
     predict_demand()
 
 if st.button("Log Out", key=button_key_logout):
-    # Button 1 is clicked
     st.write("Logging Out!")
     st.session_state.page = "login"
 
-
 if __name__ == "__main__":
     main()
-
-
-
-
