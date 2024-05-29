@@ -6,14 +6,15 @@ import matplotlib.pyplot as plt
 
 # Function to plot the distribution of parameters
 def dist_of_params(frame, variable, title):
-    frame_reset_index = frame.reset_index(drop=True)  # Reset index to avoid duplicate labels
     plt.figure(figsize=(10, 6))  # Adjust figure size if needed
-    sns.kdeplot(frame_reset_index, x=variable)
-    plt.title(title)
-    plt.legend(labels=[variable])  # Add legend with variable name
-    plt.xlabel(variable)  # Set x-axis label
-    plt.ylabel('Density')  # Set y-axis label
-    plt.show()
+    # Plot the distribution based on the feature variable
+    if feature_variable in dataframe.columns:
+        sns.kdeplot(data=frame[variable])
+        plt.title(title)
+        plt.xlabel(feature_variable)  # Set x-axis label
+        plt.ylabel('Density')         # Set y-axis label
+        plt.grid(True)                # Add grid lines
+        plt.show()
     
 
 # Function to display the homepage
