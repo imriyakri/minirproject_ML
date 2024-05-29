@@ -167,7 +167,7 @@ if st.session_state.page == 'home':
 elif st.session_state.page == 'login':
     show_login()
 elif st.session_state.page == 'prediction':
-    predict_demand
+    predict_demand()
 # Run the app
 if __name__ == "__main__":
     main()
