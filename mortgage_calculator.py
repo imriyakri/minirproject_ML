@@ -144,9 +144,9 @@ def predict_demand():
                 st.write("No data available for the selected inputs.")
     with col2:
         if st.button("Show Graphs"):
-            st.image("path_to_your_image.jpg", caption="This is a sample image", use_column_width=True)
-            st.image("path_to_your_image.jpg", caption="This is a sample image", use_column_width=True)
-            st.image("path_to_your_image.jpg", caption="This is a sample image", use_column_width=True)
+            st.image("Screenshot 2024-05-29 225832.png", caption="This is a sample image", use_column_width=True)
+            st.image("Screenshot 2024-05-29 225917.png", caption="This is a sample image", use_column_width=True)
+            st.image("Screenshot 2024-05-29 225932.png", caption="This is a sample image", use_column_width=True)
 
 # Initialize session state
 if 'page' not in st.session_state:
