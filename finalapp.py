@@ -144,9 +144,9 @@ def predict_demand():
                 st.write("No data available for the selected inputs.")
     with col2:
         if st.button("Show Graphs"):
-            st.image("Screenshot 2024-05-29 225832.png", caption="", use_column_width=False)
-            st.image("Screenshot 2024-05-29 225917.png", caption="", use_column_width=False)
-            st.image("Screenshot 2024-05-29 225932.png", caption="", use_column_width=False)
+            st.image("Screenshot 2024-05-29 225832.png", caption="", use_column_width=True)
+            st.image("Screenshot 2024-05-29 225917.png", caption="", use_column_width=True)
+            st.image("Screenshot 2024-05-29 225932.png", caption="", use_column_width=True)
     with col3:
         if st.button("Logout"):
             st.session_state.page = 'login'
