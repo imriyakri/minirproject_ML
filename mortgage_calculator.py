@@ -89,7 +89,7 @@ def show_login():
 # Function to display the prediction page
 def predict_demand():
     st.title("Predict your demand!!")
-    st.write("Predict your demand!!")
+
 
     # Gather user input
     month = st.selectbox("Month", ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])
@@ -102,7 +102,7 @@ def predict_demand():
     tipamount = st.number_input("Tip Amount", 0.0)
 
     # Read the CSV file containing pickup data
-    pickup_data = pd.read_csv('pickups_df.csv')
+    pickup_data = pd.read_csv('pickup.csv')
 
     # Convert month to numeric value
     month_dict = {"January": 1, "February": 2, "March": 3, "April": 4, "May": 5, "June": 6, "July": 7, "August": 8, "September": 9, "October": 10, "November": 11, "December": 12}
@@ -123,7 +123,6 @@ def predict_demand():
     # Combine user input with pickup data
     combined_data = pd.concat([pickup_data, input_data], ignore_index=True)
 
-    # Predict the demand using the model (mocked here as we don't have the actual model)
     filtered_data = pickup_data[
         (pickup_data['pickup_day'] == date) &
         (pickup_data['pickup_hour'] == hour)
